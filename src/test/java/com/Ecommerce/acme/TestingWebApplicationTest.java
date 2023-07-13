@@ -1,4 +1,4 @@
-package com.Ecommerce.acme.integration;
+package com.Ecommerce.acme;
 
 
 import static org.hamcrest.Matchers.containsString;
