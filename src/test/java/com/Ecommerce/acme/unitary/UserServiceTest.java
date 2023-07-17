@@ -3,6 +3,7 @@ package com.Ecommerce.acme.unitary;
 import com.Ecommerce.acme.model.User;
 import com.Ecommerce.acme.repository.UserRepository;
 import com.Ecommerce.acme.service.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +30,7 @@ public class UserServiceTest {
         Optional result = Optional.of(user);
 
         when(repository.findById(1)).thenReturn(result);
-        assertEquals(result, service.getUser(1));
+        Assertions.assertEquals(result, service.getUser(1));
     }
 
     @Test
