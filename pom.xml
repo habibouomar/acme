@@ -98,14 +98,20 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<includes>
-						<include>**/*Test*.java</include>
-						<include>**/*Test.java</include>
-						<include>**/*TestCase.java</include>
-					</includes>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 		</plugins>
+		<testResources>
+			<testResource>
+				<directory>src/main/webapp</directory>
+			</testResource>
+		</testResources>
 	</build>
 
 </project>
