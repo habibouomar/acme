@@ -24,8 +24,8 @@ public class ProductController {
 	}
 
 	@PostMapping("/products")
-	public String addSelectToCart(Selection selection, User user, Product product, Authentication authentication, Model model, BindingResult bindingResult) {
-		return ps.submitSelectionForm(selection, user, product, authentication, model, bindingResult);
+	public String addSelectToCart(Selection selection, Product product, Authentication authentication) {
+		return ps.submitSelectionForm(selection, product, authentication);
 	}
 
 }

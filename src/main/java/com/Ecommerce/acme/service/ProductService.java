@@ -78,7 +78,7 @@ public class ProductService {
 		return "products";
 	}
 	
-	public String submitSelectionForm(@ModelAttribute("selectionForm") Selection selection,User user, Product product, Authentication authentication, Model model, BindingResult bindingResult){
+	public String submitSelectionForm(@ModelAttribute("selectionForm") Selection selection, Product product, Authentication authentication){
 
 		int currentUserMarge = us.findByUsername(authentication.getName()).getMargin_rate();
 		int currentUserId = us.findByUsername(authentication.getName()).getId_user();
@@ -86,7 +86,7 @@ public class ProductService {
 		Double marge = (currentUserMarge / 100.0);
 		reduction = (product.getUnit_price() * marge);
 		marginPrice = (product.getUnit_price() - reduction); 
-		Double totalSelection = (marginPrice * selection.getQuantity());
+		double totalSelection = (marginPrice * selection.getQuantity());
 
 		selection.setMargin_price(marginPrice);
 		selection.setTotal(totalSelection);

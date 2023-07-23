@@ -30,10 +30,6 @@ public class OrderService {
 		return or.findAll();
 	}
 
-	public void deleteOrder(final int id) {
-		or.deleteById(id);
-	}
-
 	public void insertOrder(Order Order) {
 		or.save(Order);
 	}

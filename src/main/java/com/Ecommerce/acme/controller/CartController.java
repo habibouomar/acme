@@ -19,15 +19,14 @@ public class CartController {
 	@Autowired
 	private CartService cs;
 
-
 	@GetMapping({"/cart"})
-	public String showCart(Model model, User user, Authentication authentication ) throws Exception {
-		return  cs.getSelectionOfCurrentUser(model, user, authentication);
+	public String showCart(Model model, Authentication authentication ) throws Exception {
+		return  cs.getSelectionOfCurrentUser(model, authentication);
 	}
 
 	@PostMapping("/cart")
-	public String CreateOrder(Cart cart, Order order, Selection selection, User user, Authentication authentication, Model model, BindingResult bindingResult) {
-		return cs.submitCartForm(cart, order, selection, user, authentication, model, bindingResult);
+	public String CreateOrder(Cart cart, Order order, User user, Authentication authentication) {
+		return cs.submitCartForm(cart, order, user, authentication);
 	}
 
 }
