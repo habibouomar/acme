@@ -22,33 +22,16 @@ public class OrderService {
 	@Autowired
 	private UserService us;
 
-	public Optional<Order> getOrder(final int id){
-		return or.findById(id);
-	}
+	public Iterable<Order> getAllOrders() { return or.findAll(); }
 
-	public Iterable<Order> getAllOrder() {
-		return or.findAll();
-	}
-
-	public void insertOrder(Order Order) {
-		or.save(Order);
-	}
+	public void insertOrder(Order Order) { or.save(Order); }
 
 	public String getAllOrdersByUser(Authentication authentication, Model model) {
 
-		int currentUserId = us.findByUsername(authentication.getName()).getId_user();
-		ArrayList<Order> orderList = new ArrayList<Order>();
+		int currentUserId = getCurrentUserId(authentication);
+		ArrayList<Order> userOrderList = getUserOrders(currentUserId);
 
-		for(Order o : this.getAllOrder()) {
-
-			if( o.getUser().getId_user() == currentUserId) {
-
-				orderList.add(o);
-
-			}
-		}
-
-		model.addAttribute("orders", orderList);
+		model.addAttribute("orders", userOrderList);
 
 		return "order";
 	}
@@ -57,61 +40,59 @@ public class OrderService {
 
 		ArrayList<Selection> detailsList = new ArrayList<Selection>();
 
-		for(Selection s : ss.getAllSelection()) {
-				
-				if(s.getCart() != null && (s.getCart().getId_cart() == Id_order) ) {
+		for(Selection selection : ss.getAllSelection()) {
 
-					detailsList.add(s);
+				if(selection.getCart() != null && (selection.getCart().getId_cart() == Id_order) ) {
+
+					detailsList.add(selection);
 				}			
 		}
 
 		model.addAttribute("details", detailsList);
 	}
 
-	public void getDataProfil(Authentication authentication, Model model) {
+	public void getUserProfileData(Authentication authentication, Model model) {
 
-		int currentUserId = us.findByUsername(authentication.getName()).getId_user();
-		ArrayList<Order> orderList = new ArrayList<Order>();
-
-		for(Order o : this.getAllOrder()) {
-
-			if( o.getUser().getId_user() == currentUserId) {
-
-				orderList.add(o);
-
-			}
-		}
-
-		int totalOrderCurrentUser = orderList.size();
+		int currentUserId = getCurrentUserId(authentication);
+		ArrayList<Order> userOrderList = getUserOrders(currentUserId);
+		int totalOrderCurrentUser = userOrderList.size();
 		double TurnoverCurrentUser = 0;
 		int numberOfOrdersInVerification = 0;
+		String firstOrder = "vide";
+		String lastOrder = "vide";
 
-		String firstOrder = "";
-		String lastOrder = "";
+		for(Order order : userOrderList) {
+			TurnoverCurrentUser += order.getCart().getTotal_price();
 
-		for(Order o : orderList) {
-			TurnoverCurrentUser += o.getCart().getTotal_price();
-
-			if(!o.isValidate() && o.getUser().getId_user() == currentUserId){
+			if(!order.isValidate() && order.getUser().getId_user() == currentUserId){
 				numberOfOrdersInVerification += 1;
 			}
 		}
 
-		if(orderList.size() == 0){
-			 firstOrder = "vide";
-			 lastOrder = "vide";
-		}else{
-			firstOrder = orderList.get(0).getOrder_date();
-			lastOrder = orderList.get(orderList.size()-1).getOrder_date();
+		if (!userOrderList.isEmpty()) {
+			firstOrder = userOrderList.get(0).getOrder_date();
+			lastOrder = userOrderList.get(userOrderList.size() - 1).getOrder_date();
 		}
 
 		model.addAttribute("person", us.findByUsername(authentication.getName()));
-
 		model.addAttribute("data", totalOrderCurrentUser);
 		model.addAttribute("data1", TurnoverCurrentUser);
 		model.addAttribute("data2", firstOrder);
 		model.addAttribute("data3", lastOrder);
 		model.addAttribute("data4", numberOfOrdersInVerification);
+	}
 
+	private int getCurrentUserId(Authentication authentication) {
+		return us.findByUsername(authentication.getName()).getId_user();
+	}
+
+	private ArrayList<Order> getUserOrders(int currentUserId) {
+		ArrayList<Order> userOrderList = new ArrayList<>();
+		for (Order order : this.getAllOrders()) {
+			if (order.getUser().getId_user() == currentUserId) {
+				userOrderList.add(order);
+			}
+		}
+		return userOrderList;
 	}
 }

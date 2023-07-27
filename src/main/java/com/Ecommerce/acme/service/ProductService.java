@@ -49,10 +49,6 @@ public class ProductService {
 		sizeList.add(46);
 	}
 	
-	double reduction;
-	double marginPrice;
-	double finalPrice;
-	
 	public Optional<Product> getProduct(final int id){
 		return pr.findById(id);
 	}
@@ -80,12 +76,13 @@ public class ProductService {
 	
 	public String submitSelectionForm(@ModelAttribute("selectionForm") Selection selection, Product product, Authentication authentication){
 
-		int currentUserMarge = us.findByUsername(authentication.getName()).getMargin_rate();
-		int currentUserId = us.findByUsername(authentication.getName()).getId_user();
+		User currentUser = us.findByUsername(authentication.getName());
+		int currentUserMarge = currentUser.getMargin_rate();
+		int currentUserId = currentUser.getId_user();
 
 		Double marge = (currentUserMarge / 100.0);
-		reduction = (product.getUnit_price() * marge);
-		marginPrice = (product.getUnit_price() - reduction); 
+		Double reduction = (product.getUnit_price() * marge);
+		Double marginPrice = (product.getUnit_price() - reduction);
 		double totalSelection = (marginPrice * selection.getQuantity());
 
 		selection.setMargin_price(marginPrice);

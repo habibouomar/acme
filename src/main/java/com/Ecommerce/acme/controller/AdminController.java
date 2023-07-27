@@ -181,7 +181,7 @@ public class AdminController {
 	
 	@GetMapping("/admin/orders")
 	public String ShowOrders(@ModelAttribute("orderForm") Order order, Model model) {
-		model.addAttribute("orders", os.getAllOrder());
+		model.addAttribute("orders", os.getAllOrders());
 		return "adminOrders";
 	}
 	

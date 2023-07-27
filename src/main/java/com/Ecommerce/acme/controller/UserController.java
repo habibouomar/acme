@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	private UserService us;
 
 	@Autowired
 	private OrderService os;
@@ -32,7 +32,7 @@ public class UserController {
 
 	@RequestMapping("/default")
 	public String defaultAfterLogin(Authentication authentication) {
-		String currentRole = userService.findByUsername(authentication.getName()).getRole().getText();
+		String currentRole = us.findByUsername(authentication.getName()).getRole().getText();
 
 		if ((currentRole == "ADMIN")) {
 			return "redirect:/admin/orders";
@@ -47,7 +47,7 @@ public class UserController {
 
 	@GetMapping({"/profil"})
 	public String profil(Model model, Authentication authentication) {
-		os.getDataProfil(authentication, model);
+		os.getUserProfileData(authentication, model);
 
 		return "profil";
 	}

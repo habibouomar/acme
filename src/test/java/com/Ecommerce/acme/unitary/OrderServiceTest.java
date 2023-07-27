@@ -28,6 +28,6 @@ public class OrderServiceTest {
         ordersList.add(order);
 
         when(repository.findAll()).thenReturn(ordersList);
-        assertEquals(ordersList, service.getAllOrder());
+        assertEquals(ordersList, service.getAllOrders());
     }
 }

@@ -86,12 +86,12 @@ public class CartService {
 		cart.setUser(user);
 		insertCart(cart);
 
-		for(Selection s : ss.getAllSelection()) {
+		for(Selection selection : ss.getAllSelection()) {
 
-			if(s.getCart() == null  && s.getId_user() == currentUserId) {
+			if(selection.getCart() == null  && selection.getId_user() == currentUserId) {
 
-				s.setCart(cart);
-				ss.insertSelection(s);
+				selection.setCart(cart);
+				ss.insertSelection(selection);
 			}
 		}
 
@@ -104,5 +104,4 @@ public class CartService {
 
 		return "redirect:/cart";
 	}
-
 }
