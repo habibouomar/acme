@@ -17,5 +17,4 @@ public class SelectionController {
 		ss.deleteSelection(id);
 		return "redirect:/cart";
 	}
-
 }

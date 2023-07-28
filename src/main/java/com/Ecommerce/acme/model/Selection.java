@@ -33,6 +33,4 @@ public class Selection {
 	@JoinColumn(name = "id_cart", referencedColumnName= "id_cart", insertable = true, updatable = true)
 	private Cart cart;
 
-	
-	
 }

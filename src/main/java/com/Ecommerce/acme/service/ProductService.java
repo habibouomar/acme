@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import com.Ecommerce.acme.model.Product;
 import com.Ecommerce.acme.model.Selection;
@@ -26,28 +25,10 @@ public class ProductService {
 	private UserService us;
 	
 	@Autowired
-	private SelectionService ss;	
-	
-	static List<Integer> quantityList = null;
-	static List<Integer> sizeList = null;
+	private SelectionService ss;
 
-	static {
-		quantityList = new ArrayList<>();
-		quantityList.add(1);
-		quantityList.add(10);
-		quantityList.add(50);
-		quantityList.add(100);
-	}
-
-	static {
-		sizeList = new ArrayList<>();
-		sizeList.add(41);
-		sizeList.add(42);
-		sizeList.add(43);
-		sizeList.add(44);
-		sizeList.add(45);
-		sizeList.add(46);
-	}
+	private static final List<Integer> quantityList = List.of(1, 10, 50, 100);
+	private static final List<Integer> sizeList = List.of(41, 42, 43, 44, 45, 46);
 	
 	public Optional<Product> getProduct(final int id){
 		return pr.findById(id);

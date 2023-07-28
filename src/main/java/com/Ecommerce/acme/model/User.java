@@ -41,9 +41,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	public User() {
-
-	}
+	public User() {}
 
 	public int getId_user() {
 		return id_user;
