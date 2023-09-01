@@ -43,7 +43,7 @@ public class User {
 
 	public User() {}
 
-	public int getId_user() {
+    public int getId_user() {
 		return id_user;
 	}
 

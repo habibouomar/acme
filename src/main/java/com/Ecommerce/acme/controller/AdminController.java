@@ -56,16 +56,22 @@ public class AdminController {
 
 	@PostMapping("/admin/registration")
 	public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-		userValidator.validate(userForm, bindingResult);
+		try {
+			userValidator.validate(userForm, bindingResult);
 
-		if (bindingResult.hasErrors()) {
+			if (bindingResult.hasErrors()) {
+				return "redirect:/admin/registration";
+			}
+
+			authService.createNewUser(userForm);
+
+			return "redirect:/admin/manage_user";
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
 			return "redirect:/admin/registration";
-
 		}
-
-		authService.createNewUser(userForm);
-
-		return "redirect:/admin/manage_user";
 	}
 
 	@GetMapping("/admin/addAdmin")
